@@ -7,9 +7,15 @@ metadata:
 spec:
   containers:
     - name: mysql
-      image: 911048994404.dkr.ecr.us-east-1.amazonaws.com/db_mysql:dbapp-latest
-      env:
-        - name: MYSQL_ROOT_PASSWORD
-          value: "rootpassword"
+      image: 911048994404.dkr.ecr.us-east-1.amazonaws.com/db_mysql:dbapp-latest  # Replace with your ECR image URL
       ports:
         - containerPort: 3306
+      env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "passwors"     # Password for root access
+        - name: MYSQL_DATABASE
+          value: "employees"    # Database name that the app will use
+        - name: MYSQL_USER
+          value: "root"         # Database user
+        - name: MYSQL_PASSWORD
+          value: "passwors"     # Password for the user

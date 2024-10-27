@@ -7,6 +7,19 @@ metadata:
 spec:
   containers:
     - name: webapp
-      image: 911048994404.dkr.ecr.us-east-1.amazonaws.com/app:webapp-latest
+      image: 911048994404.dkr.ecr.us-east-1.amazonaws.com/app:webapp-latest  # Replace with your ECR image URL
       ports:
         - containerPort: 8080
+      env:
+        - name: DBHOST
+          value: "mysql-pod"    # Hostname of the MySQL Pod; ensure both Pods are in the same namespace
+        - name: DBUSER
+          value: "root"
+        - name: DBPWD
+          value: "passwors"
+        - name: DATABASE
+          value: "employees"
+        - name: APP_COLOR
+          value: "lime"         # Set default color; can be overridden by environment or command line
+        - name: DBPORT
+          value: "3306"         # MySQL default port
