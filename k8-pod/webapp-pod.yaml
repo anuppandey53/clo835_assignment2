@@ -2,10 +2,12 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: webapp-pod
-  namespace: webapp-namespace  # Specify the namespace here
+  namespace: webapp-namespace
   labels:
     app: webapp
 spec:
+  imagePullSecrets:
+    - name: ecr-secret  # Reference the secret you created
   containers:
     - name: webapp
       image: 911048994404.dkr.ecr.us-east-1.amazonaws.com/app:webapp-latest  # Replace with your ECR image URL
@@ -13,17 +15,17 @@ spec:
         - containerPort: 8080
       env:
         - name: DBHOST
-          value: "mysql-pod"    # Hostname of the MySQL Pod; ensure both Pods are in the same namespace
+          value: "mysql-service"   # This should match the MySQL service name
         - name: DBUSER
           value: "root"
         - name: DBPWD
           valueFrom:
             secretKeyRef:
-              name: webapp-secrets  # Reference to the Secret
+              name: webapp-secrets
               key: DBPWD
         - name: DATABASE
           value: "employees"
         - name: APP_COLOR
-          value: "lime"         # Set default color; can be overridden by environment or command line
+          value: "lime"            # Default color
         - name: DBPORT
-          value: "3306"         # MySQL default port
+          value: "3306"            # MySQL default port

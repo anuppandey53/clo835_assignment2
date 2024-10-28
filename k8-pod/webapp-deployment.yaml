@@ -4,7 +4,7 @@ metadata:
   name: webapp-deployment
   namespace: webapp-namespace  # Specify the namespace here
 spec:
-  replicas: 3  # Number of web application replicas
+  replicas: 1  # Number of web application replicas
   selector:
     matchLabels:
       app: webapp
@@ -13,6 +13,8 @@ spec:
       labels:
         app: webapp
     spec:
+      imagePullSecrets:
+        - name: ecr-secret  # Reference the secret you created
       containers:
         - name: webapp
           image: 911048994404.dkr.ecr.us-east-1.amazonaws.com/app:webapp-latest  # Replace with your ECR image URL
