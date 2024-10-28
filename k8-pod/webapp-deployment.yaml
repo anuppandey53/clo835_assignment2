@@ -23,7 +23,10 @@ spec:
             - name: DBUSER
               value: "root"
             - name: DBPWD
-              value: "passwors"
+              valueFrom:
+                secretKeyRef:
+                  name: webapp-secrets
+                  key: DBPWD
             - name: DATABASE
               value: "employees"
             - name: APP_COLOR
