@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: webapp-replicaset
+  namespace: webapp-namespace  # Specify the namespace here
+  labels:
+    app: webapp
+spec:
+  replicas: 3  # Number of web application replicas
+  selector:
+    matchLabels:
+      app: webapp
+  template:
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      containers:
+        - name: webapp
+          image: 911048994404.dkr.ecr.us-east-1.amazonaws.com/app:webapp-latest  # Replace with your ECR image URL
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DBHOST
+              value: "mysql-service"    # Service name of MySQL
+            - name: DBUSER
+              value: "root"
+            - name: DBPWD
+              valueFrom:
+                secretKeyRef:
+                  name: webapp-secrets  # Reference to the Secret
+                  key: DBPWD
+            - name: DATABASE
+              value: "employees"
+            - name: APP_COLOR
+              value: "lime"             # Default color
+            - name: DBPORT
+              value: "3306"             # MySQL default port
