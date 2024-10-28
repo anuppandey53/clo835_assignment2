@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mysql-deployment
+  namespace: mysql-namespace
 spec:
   replicas: 1  # Number of MySQL replicas
   selector:
@@ -19,6 +20,9 @@ spec:
             - containerPort: 3306
           env:
             - name: MYSQL_ROOT_PASSWORD
-              value: "passwors"    # Only use this to set the root password
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret   # Name of the secret
+                  key: root-password    # Key in the secret
             - name: MYSQL_DATABASE
               value: "employees"   # Database name

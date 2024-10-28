@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: webapp-pod
+  namespace: webapp-namespace  # Specify the namespace here
   labels:
     app: webapp
 spec:
@@ -16,7 +17,10 @@ spec:
         - name: DBUSER
           value: "root"
         - name: DBPWD
-          value: "passwors"
+          valueFrom:
+            secretKeyRef:
+              name: webapp-secrets  # Reference to the Secret
+              key: DBPWD
         - name: DATABASE
           value: "employees"
         - name: APP_COLOR

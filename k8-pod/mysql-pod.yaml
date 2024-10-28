@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: mysql-pod
+  namespace: mysql-namespace  # Specify the namespace here
   labels:
     app: mysql
 spec:
@@ -12,10 +13,16 @@ spec:
         - containerPort: 3306
       env:
         - name: MYSQL_ROOT_PASSWORD
-          value: "passwors"     # Password for root access
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret   # Name of the secret
+              key: root-password    # Key in the secret
         - name: MYSQL_DATABASE
           value: "employees"    # Database name that the app will use
         - name: MYSQL_USER
           value: "root"         # Database user
         - name: MYSQL_PASSWORD
-          value: "passwors"     # Password for the user
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret   # Name of the secret
+              key: user-password    # Key in the secret
