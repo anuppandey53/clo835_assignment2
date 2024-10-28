@@ -6,6 +6,8 @@ metadata:
   labels:
     app: mysql
 spec:
+  imagePullSecrets:
+    - name: ecr-secret  # Reference the secret you created for ECR access
   containers:
     - name: mysql
       image: 911048994404.dkr.ecr.us-east-1.amazonaws.com/db_mysql:dbapp-latest  # Replace with your ECR image URL
