@@ -26,7 +26,10 @@ spec:
             - name: DBUSER
               value: "root"
             - name: DBPWD
-              value: "passwors"  # Set the database password directly
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret  # Name of the secret
+                  key: mysql-root-password  # Key in the secret
             - name: DATABASE
               value: "employees"
             - name: APP_COLOR
