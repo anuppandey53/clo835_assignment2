@@ -23,13 +23,16 @@ spec:
           env:
             - name: DBHOST
               value: "mysql-service.mysql-namespace.svc.cluster.local"  # Fully qualified service name
+            - name: DBPORT
+              value: "3306"  # MySQL default port
             - name: DBUSER
               value: "root"
             - name: DBPWD
-              value: "passwors"  # Set the database password directly
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret  # Name of the secret
+                  key: mysql-root-password  # Key in the secret
             - name: DATABASE
               value: "employees"
             - name: APP_COLOR
               value: "lime"  # Default color
-            - name: DBPORT
-              value: "3306"  # MySQL default port

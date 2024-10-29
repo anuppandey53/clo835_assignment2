@@ -15,10 +15,9 @@ spec:
         - containerPort: 3306
       env:
         - name: MYSQL_ROOT_PASSWORD
-          value: "passwors"  # Set the root password directly
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: mysql-root-password
         - name: MYSQL_DATABASE
-          value: "employees"    # Database name that the app will use
-        - name: MYSQL_USER
-          value: "root"         # Database user
-        - name: MYSQL_PASSWORD
-          value: "passwors"     # Set the user password directly
+          value: "employees"
