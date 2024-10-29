@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mysql-deployment
-  namespace: mysql-namespace
+  namespace: mysql-namespace  # Specify the namespace here
 spec:
   replicas: 1  # Number of MySQL replicas
   selector:
@@ -13,6 +13,8 @@ spec:
       labels:
         app: mysql
     spec:
+      imagePullSecrets:
+        - name: ecr-secret  # Reference the secret you created for ECR access
       containers:
         - name: mysql
           image: 911048994404.dkr.ecr.us-east-1.amazonaws.com/db_mysql:dbapp-latest  # Replace with your ECR image URL
@@ -20,9 +22,10 @@ spec:
             - containerPort: 3306
           env:
             - name: MYSQL_ROOT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-secret   # Name of the secret
-                  key: root-password    # Key in the secret
+              value: "passwors"  # Set the root password directly
             - name: MYSQL_DATABASE
               value: "employees"   # Database name
+            - name: MYSQL_USER
+              value: "root"        # Optional: Specify a MySQL user
+            - name: MYSQL_PASSWORD
+              value: "passwors"    # Set the user password directly

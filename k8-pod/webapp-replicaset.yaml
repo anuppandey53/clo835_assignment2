@@ -14,25 +14,22 @@ spec:
         app: webapp
     spec:
       imagePullSecrets:
-        - name: ecr-secret  # Reference the secret you created
+        - name: ecr-secret  # Reference the secret you created for ECR access
       containers:
         - name: webapp
-          image: 911048994404.dkr.ecr.us-east-1.amazonaws.com/app:webapp-latest  # Replace with your ECR image URL
+          image: 911048994404.dkr.ecr.us-east-1.amazonaws.com/app:webapp-latest  # ECR image URL
           ports:
             - containerPort: 8080
           env:
             - name: DBHOST
-              value: "mysql-service"   # This should match the MySQL service name
+              value: "mysql-service.mysql-namespace.svc.cluster.local"  # Fully qualified service name
             - name: DBUSER
               value: "root"
             - name: DBPWD
-              valueFrom:
-                secretKeyRef:
-                  name: webapp-secrets
-                  key: DBPWD
+              value: "passwors"  # Set the database password directly
             - name: DATABASE
               value: "employees"
             - name: APP_COLOR
-              value: "lime"            # Default color
+              value: "lime"  # Default color
             - name: DBPORT
-              value: "3306"            # MySQL default port
+              value: "3306"  # MySQL default port
